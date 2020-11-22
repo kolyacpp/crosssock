@@ -1,0 +1,22 @@
+cmake_minimum_required(VERSION 3.10)
+
+project(socklib)
+
+set(SOCKLIB_BUILD_TEST
+    TRUE
+    CACHE STRING "Build test")
+
+if(${SOCKLIB_BUILD_TEST})
+  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/test)
+  set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/test)
+  set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/test)
+  set(CTEST_BINARY_DIRECTORY ${CMAKE_BINARY_DIR}/test)
+
+  add_subdirectory(src/${PROJECT_NAME})
+  add_subdirectory(test)
+else()
+  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
+  set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
+  set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
+  add_subdirectory(src/${PROJECT_NAME})
+endif()
