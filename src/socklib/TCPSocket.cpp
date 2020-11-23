@@ -8,7 +8,7 @@ namespace sl
 
     bool TCPSocket::connect(const IPAddress &ip, uint16_t port)
     {
-        if(ip.is_none())
+        if (ip.is_none())
             return false;
 
         auto addr = OS::create_sockaddr(ip.addr, port);
@@ -21,7 +21,7 @@ namespace sl
 
     bool TCPSocket::connect(const IPAddress &ip, uint16_t port, int timeout)
     {
-        if(ip.is_none())
+        if (ip.is_none())
             return false;
 
         auto addr = OS::create_sockaddr(ip.addr, port);
@@ -117,8 +117,7 @@ namespace sl
 
     bool TCPSocket::listen(uint16_t port)
     {
-        sockaddr_in addr = OS::create_sockaddr(IPAddress::any.addr, port);
-        if (::bind(s, (sockaddr *)&addr, sizeof(addr)) == -1)
+        if (!bind(IPAddress::any, port))
             return false;
 
         if (::listen(s, SOMAXCONN) == -1)

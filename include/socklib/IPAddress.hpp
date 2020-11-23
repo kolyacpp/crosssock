@@ -2,9 +2,8 @@
 #define __IPADDRES_H__
 
 #include <string>
-#include <ws2tcpip.h>
+#include <socklib/OS.hpp>
 #include <socklib/Config.hpp>
-#include <socklib/Socket.hpp>
 
 namespace sl
 {

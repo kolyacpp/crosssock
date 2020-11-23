@@ -47,6 +47,18 @@ namespace sl
     }
 
     template <typename _SocketHandle, _SocketHandle _invalid_socket, Type _type>
+    bool SocketBase<_SocketHandle, _invalid_socket, _type>::bind(const IPAddress &address, uint16_t port)
+    {
+        create();
+
+        sockaddr_in addr = OS::create_sockaddr(address.addr, port);
+        if (::bind(s, (sockaddr *)&addr, sizeof(addr)) == -1)
+            return false;
+
+        return true;
+    }
+
+    template <typename _SocketHandle, _SocketHandle _invalid_socket, Type _type>
     bool SocketBase<_SocketHandle, _invalid_socket, _type>::wait(long timeout)
     {
         fd_set set;

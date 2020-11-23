@@ -97,17 +97,6 @@ namespace sl
             set_broadcast(false);
     }
 
-    bool UDPSocket::bind(const IPAddress &address, uint16_t port)
-    {
-        create();
-
-        sockaddr_in addr = OS::create_sockaddr(address.addr, port);
-        if (::bind(s, (sockaddr *)&addr, sizeof(addr)) == -1)
-            return false;
-
-        return true;
-    }
-
     void UDPSocket::on_close() 
     {
         broadcast = false;

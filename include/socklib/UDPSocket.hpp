@@ -27,7 +27,7 @@ namespace sl
 
         int send(const char *data, int size);
         int recv(char *data, int size);
-        bool bind(const IPAddress &address, uint16_t port);
+        
 
         bool set_broadcast(bool state = true);
         inline bool is_connected() { return connected; };

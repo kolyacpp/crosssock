@@ -4,8 +4,6 @@
 #include <stdexcept>
 #include <chrono>
 
-#include <ws2tcpip.h>
-
 #include <socklib/Config.hpp>
 #include <socklib/Enums.hpp>
 #include <socklib/IPAddress.hpp>
@@ -13,8 +11,6 @@
 
 namespace sl
 {
-    class IPAddress;
-
     template <typename _SocketHandle, _SocketHandle _invalid_socket, Type _type>
     class CROSSSOCK_DLL SocketBase
     {
@@ -37,8 +33,11 @@ namespace sl
         inline bool is_blocking() const { return blocking; }
         inline bool is_invalid() const { return s == invalid_socket; }
         inline SocketHandle get_handle() const { return s; }
+        bool bind(const IPAddress &address, uint16_t port);
 
         bool wait(long timeout);
+
+        inline operator bool() { return !is_invalid(); }
 
     protected:
         virtual void on_close(){};

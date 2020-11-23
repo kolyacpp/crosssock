@@ -21,7 +21,6 @@ namespace sl
         TCPSocket();
         explicit TCPSocket(SocketHandle handle);
 
-        
         bool connect(const IPAddress &ip, uint16_t port);
         bool connect(const IPAddress &ip, uint16_t port,
                      int timeout);

@@ -8,7 +8,7 @@ int main()
     try
     {
         sl::TCPSocket socket;
-        if (!socket.connect(sl::IPAddress("173.194.73.113"), 80, 1000))
+        if (!socket.connect(sl::IPAddress("1.1.1.1"), 80, 1000))
             FAIL;
         
         socket.create();
@@ -18,7 +18,7 @@ int main()
 
         socket.create();
 
-        if (!socket.connect(sl::IPAddress("173.194.73.113"), 80))
+        if (!socket.connect(sl::IPAddress("1.1.1.1"), 80))
             FAIL;
     }
     catch (...)
