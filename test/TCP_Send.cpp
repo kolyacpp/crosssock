@@ -20,11 +20,11 @@ int main()
 
             if (send_socket.connect(sl::IPAddress::loopback, PORT, 1000))
             {
-                if (send_socket.send("PASS", sizeof("PASS")) != send_socket.all)
-                    throw;
+                if (send_socket.send("PASS", sizeof("PASS")) == -1)
+                    FAIL;
             }
             else
-                throw;
+                FAIL;
         });
 
         sl::TCPSocket s(listener.accept());
@@ -33,7 +33,7 @@ int main()
             FAIL;
 
         char msg[1024];
-        if (s.recv(msg, 5) != s.all)
+        if (s.recv(msg, 5) == -1)
             FAIL;
 
         if (std::string(msg) != "PASS")

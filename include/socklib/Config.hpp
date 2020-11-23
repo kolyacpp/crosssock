@@ -16,8 +16,6 @@
 #endif
 
 
-// from
-// https://github.com/HaxeFoundation/hxcpp/commit/c95cbafe6ceb7bb7642dee8efcdb16fcf4d3907d
 #if defined(__GNUC__) && defined(WIN32)
 #include <ws2tcpip.h>
 extern "C"

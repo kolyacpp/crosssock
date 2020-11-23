@@ -64,9 +64,6 @@ namespace sl
             else
                 res = ::recvfrom(s, data, size, 0, (sockaddr *)&saddr, &sizeofaddr);
 
-        if (res == size)
-            return all;
-
         if (res <= 0)
         {
             close();

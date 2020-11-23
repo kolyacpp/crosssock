@@ -23,8 +23,7 @@ namespace sl
         static const SocketHandle invalid_socket = _invalid_socket;
         static const Type type = _type;
 
-        static constexpr size_t all = std::numeric_limits<int>::max();
-        static constexpr size_t error = std::numeric_limits<int>::max() - 1;
+        static const int error = -1;
 
         SocketBase();
         SocketBase(SocketHandle handle);

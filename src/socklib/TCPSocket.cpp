@@ -93,7 +93,7 @@ namespace sl
             sent += res;
         }
 
-        return all;
+        return size;
     }
 
     int TCPSocket::recv(char *data, int size)
@@ -105,10 +105,8 @@ namespace sl
             return error;
 
         int recved = ::recv(s, data, size, 0);
-        if (recved == size)
-            return all;
 
-        if (recved < 0)
+        if (recved <= 0)
         {
             close();
             return error;
