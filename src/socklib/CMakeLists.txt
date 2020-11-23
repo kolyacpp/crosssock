@@ -23,11 +23,8 @@ else()
               ${SRC}/Unix/OS.hpp ${SRC}/Unix/OS.cpp)
 endif()
 
-aux_source_directory(${SRC} SOURCE)
-aux_source_directory(${INCLUDE} INCL)
-aux_source_directory(${SRC}/Winsock2 WS)
 
-add_library(${PROJECT_NAME} ${SOURCE} ${INCL} ${WS})
+add_library(${PROJECT_NAME} ${SOURCES})
 
 if(WIN32)
   target_link_libraries(${PROJECT_NAME} PRIVATE ws2_32)

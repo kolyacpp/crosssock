@@ -6,7 +6,7 @@ namespace sl
     sockaddr_in OS::create_sockaddr(const in_addr &addres, u_short port)
     {
         sockaddr_in addr;
-        ZeroMemory(&addr, sizeof(addr));
+        memset(&addr, 0, sizeof(addr));
         addr.sin_port = htons(port);
         addr.sin_addr = addres;
         addr.sin_family = AF_INET;
@@ -14,9 +14,9 @@ namespace sl
         return addr;
     }
 
-    void OS::close(SOCKET s)
+    void OS::close(int s)
     {
-        close(s);
+        ::close(s);
     }
 
 } // namespace sl

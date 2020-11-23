@@ -4,7 +4,16 @@
 #include <cstdint>
 #include <stdexcept>
 
-#include <ws2tcpip.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netinet/tcp.h>
+#include <arpa/inet.h>
+#include <netdb.h>
+
+#include <unistd.h>
+#include <errno.h>
+#include <cstring>
 
 #include <socklib/Config.hpp>
 #include <socklib/Enums.hpp>
@@ -15,10 +24,10 @@ namespace sl
 {
 
     template <Type _type>
-    class CROSSSOCK_DLL Socket : public SocketBase<SOCKET, INVALID_SOCKET, _type>
+    class CROSSSOCK_DLL Socket : public SocketBase<int, -1, _type>
     {
     public:
-        typedef typename SocketBase<SOCKET, INVALID_SOCKET, _type>::SocketHandle SocketHandle;
+        typedef typename SocketBase<int, -1, _type>::SocketHandle SocketHandle;
         Socket();
         Socket(SocketHandle handle);
 

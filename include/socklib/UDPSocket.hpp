@@ -37,7 +37,13 @@ namespace sl
     private:
         void on_close() override;
 
-        int sizeofaddr = sizeof(saddr);
+#ifdef _WIN32
+        int sizeofaddr
+#else
+        socklen_t sizeofaddr
+#endif
+            = sizeof(saddr);
+
         bool connected = false;
         bool broadcast = false;
     };

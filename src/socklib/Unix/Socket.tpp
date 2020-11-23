@@ -4,16 +4,16 @@
 namespace sl
 {
     template <Type _type>
-    Socket<_type>::Socket() : SocketBase<SOCKET, INVALID_SOCKET, _type>() {}
+    Socket<_type>::Socket() : SocketBase<int, -1, _type>() {}
 
     template <Type _type>
-    Socket<_type>::Socket(SocketHandle handle) : SocketBase<SOCKET, INVALID_SOCKET, _type>(handle) {}
+    Socket<_type>::Socket(SocketHandle handle) : SocketBase<int, -1, _type>(handle) {}
 
     template <Type _type>
     void Socket<_type>::set_blocking(bool state)
     {
         u_long fionbio = !state;
-        ioctlsocket(this->s, FIONBIO, &fionbio);
+        //ioctlsocket(this->s, FIONBIO, &fionbio);
 
         this->blocking = state;
     }
@@ -21,27 +21,26 @@ namespace sl
     template <Type _type>
     Status Socket<_type>::get_status() const
     {
-        switch (WSAGetLastError())
+        switch (errno)
         {
-        case WSAEALREADY:
-        case WSAEWOULDBLOCK:
+        case EWOULDBLOCK:
+        case EINPROGRESS:
             return Status::WouldBlock;
 
-        case WSAENETDOWN:
-        case WSAENETUNREACH:
-        case WSAENETRESET:
-        case WSAECONNABORTED:
-        case WSAECONNRESET:
-        case WSAENOTCONN:
-        case WSAESHUTDOWN:
-        case WSAETIMEDOUT:
-        case WSAECONNREFUSED:
-        case WSAEHOSTDOWN:
-        case WSAEHOSTUNREACH:
-        case WSAHOST_NOT_FOUND:
+        case ENETDOWN:
+        case ENETUNREACH:
+        case ENETRESET:
+        case ECONNABORTED:
+        case ECONNRESET:
+        case ENOTCONN:
+        case ESHUTDOWN:
+        case ETIMEDOUT:
+        case ECONNREFUSED:
+        case EHOSTDOWN:
+        case EHOSTUNREACH:
             return Status::Disconnected;
 
-        case WSAEISCONN:
+        case EISCONN:
             return Status::Done;
 
         default:
