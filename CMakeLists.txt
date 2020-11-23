@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.10)
 project(crosssock)
 
 set(SOCKLIB_BUILD_TEST
-    TRUE
+    FALSE
     CACHE STRING "Build test")
 
 if(${SOCKLIB_BUILD_TEST})
