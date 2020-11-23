@@ -10,7 +10,7 @@
 namespace sl
 {
 
-    class SOCKLIB_DLL TCPSocket : public Socket<Type::TCP>
+    class CROSSSOCK_DLL TCPSocket : public Socket<Type::TCP>
     {
     public:
         typedef typename Socket<Type::TCP>::SocketHandle SocketHandle;
@@ -21,16 +21,16 @@ namespace sl
         TCPSocket();
         explicit TCPSocket(SocketHandle handle);
 
+        
         bool connect(const IPAddress &ip, uint16_t port);
-
         bool connect(const IPAddress &ip, uint16_t port,
                      int timeout);
 
-        size_t send(const char *data, size_t size);
-        size_t recv(char *data, size_t size);
+        int send(const char *data, int size);
+        int recv(char *data, int size);
 
         bool listen(uint16_t port);
-        SocketHandle accept();
+        inline SocketHandle accept() { return ::accept(s, NULL, NULL); };
         SocketHandle accept(int timeout);
     };
 

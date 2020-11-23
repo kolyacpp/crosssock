@@ -2,11 +2,27 @@
 
 namespace sl
 {
+    //int UDPSocket::sizeofaddr = sizeof(addr);
+
     UDPSocket::UDPSocket() : Socket<Type::UDP>() {}
 
     UDPSocket::UDPSocket(SocketHandle handle) : Socket<Type::UDP>(handle) {}
 
-    size_t UDPSocket::send(const char *data, size_t size)
+    bool UDPSocket::connect(const IPAddress &ip, uint16_t port)
+    {
+        if (ip.is_none())
+            return false;
+
+        saddr = OS::create_sockaddr(ip.addr, port);
+
+        if (::connect(s, (sockaddr *)&saddr, sizeof(saddr)) == -1)
+            return false;
+
+        connected = true;
+        return true;
+    }
+
+    int UDPSocket::send(const char *data, int size)
     {
         if (size == 0)
             return 0;
@@ -14,9 +30,13 @@ namespace sl
         if (s == invalid_socket)
             return error;
 
-        for (size_t sent = 0; sent < size;)
+        for (int sent = 0; sent < size;)
         {
-            int res = ::sendto(s, data + sent, size - sent, 0, (sockaddr *)&addr, sizeofaddr);
+            int res;
+            if(connected)
+                res = ::send(s, data + sent, size - sent, 0);
+            else
+                res = ::sendto(s, data + sent, size - sent, 0, (sockaddr *)&saddr, sizeofaddr);
 
             if (res < 0)
             {
@@ -27,10 +47,10 @@ namespace sl
             sent += res;
         }
 
-        return all;
+        return size;
     }
 
-    size_t UDPSocket::recv(char *data, size_t size)
+    int UDPSocket::recv(char *data, int size)
     {
         if (size == 0)
             return 0;
@@ -38,17 +58,22 @@ namespace sl
         if (s == invalid_socket)
             return error;
 
-        int recved = ::recvfrom(s, data, size, 0, 0, 0);
-        if (recved == size)
+        int res;
+        if(connected)
+                res = ::recv(s, data, size, 0);
+            else
+                res = ::recvfrom(s, data, size, 0, (sockaddr *)&saddr, &sizeofaddr);
+
+        if (res == size)
             return all;
 
-        if (recved <= 0)
+        if (res <= 0)
         {
             close();
             return error;
         }
 
-        return recved;
+        return res;
     }
 
     bool UDPSocket::set_broadcast(bool state)
@@ -64,9 +89,9 @@ namespace sl
 
     void UDPSocket::set_addr(const IPAddress &address, uint16_t port)
     {
-        addr = OS::create_sockaddr(address.get_in_addr(), port);
+        saddr = OS::create_sockaddr(address.addr, port);
 
-        if (addr.sin_addr.s_addr == INADDR_BROADCAST)
+        if (saddr.sin_addr.s_addr == INADDR_BROADCAST)
         {
             if (!broadcast)
                 set_broadcast(true);
@@ -79,11 +104,18 @@ namespace sl
     {
         create();
 
-        sockaddr_in addr = OS::create_sockaddr(address.get_in_addr(), port);
+        sockaddr_in addr = OS::create_sockaddr(address.addr, port);
         if (::bind(s, (sockaddr *)&addr, sizeof(addr)) == -1)
             return false;
-        
+
         return true;
     }
+
+    void UDPSocket::on_close() 
+    {
+        broadcast = false;
+        connected = false;
+    }
+
 
 } // namespace sl

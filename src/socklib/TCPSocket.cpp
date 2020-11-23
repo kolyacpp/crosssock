@@ -11,7 +11,7 @@ namespace sl
         if(ip.is_none())
             return false;
 
-        auto addr = OS::create_sockaddr(ip.get_in_addr(), port);
+        auto addr = OS::create_sockaddr(ip.addr, port);
 
         if (::connect(s, (sockaddr *)&addr, sizeof(addr)) == -1)
             return false;
@@ -24,7 +24,7 @@ namespace sl
         if(ip.is_none())
             return false;
 
-        auto addr = OS::create_sockaddr(ip.get_in_addr(), port);
+        auto addr = OS::create_sockaddr(ip.addr, port);
 
         bool last_blocking = blocking;
         if (last_blocking)
@@ -51,7 +51,7 @@ namespace sl
             FD_SET(s, &setW);
             memcpy(&setE, &setW, sizeof(setE));
 
-            if (select(s + 1, NULL, &setW, &setE, &tv) > 0)
+            if (select(static_cast<int>(s + 1), NULL, &setW, &setE, &tv) > 0)
             {
                 if (FD_ISSET(s, &setE))
                 {
@@ -72,7 +72,7 @@ namespace sl
         return false;
     }
 
-    size_t TCPSocket::send(const char *data, size_t size)
+    int TCPSocket::send(const char *data, int size)
     {
         if (size == 0)
             return 0;
@@ -80,7 +80,7 @@ namespace sl
         if (s == invalid_socket)
             return error;
 
-        for (size_t sent = 0; sent < size;)
+        for (int sent = 0; sent < size;)
         {
             int res = ::send(s, data + sent, size - sent, 0);
 
@@ -96,7 +96,7 @@ namespace sl
         return all;
     }
 
-    size_t TCPSocket::recv(char *data, size_t size)
+    int TCPSocket::recv(char *data, int size)
     {
         if (size == 0)
             return 0;
@@ -119,7 +119,7 @@ namespace sl
 
     bool TCPSocket::listen(uint16_t port)
     {
-        sockaddr_in addr = OS::create_sockaddr(IPAddress::any.get_in_addr(), port);
+        sockaddr_in addr = OS::create_sockaddr(IPAddress::any.addr, port);
         if (::bind(s, (sockaddr *)&addr, sizeof(addr)) == -1)
             return false;
 
@@ -127,11 +127,6 @@ namespace sl
             return false;
 
         return true;
-    }
-
-    TCPSocket::SocketHandle TCPSocket::accept() 
-    {
-        return ::accept(s, NULL, NULL);
     }
 
     TCPSocket::SocketHandle TCPSocket::accept(int timeout)
@@ -148,7 +143,7 @@ namespace sl
         tv.tv_sec = timeout / 1000;
         tv.tv_usec = (timeout % 1000) * 1000;
 
-        if (::select(s + 1, &set, NULL, NULL, &tv) > 0)
+        if (::select(static_cast<int>(s + 1), &set, NULL, NULL, &tv) > 0)
             return ::accept(s, NULL, NULL);
 
         if (last_blocking)

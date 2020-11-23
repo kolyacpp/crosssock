@@ -11,27 +11,34 @@
 namespace sl
 {
 
-    class SOCKLIB_DLL UDPSocket : public Socket<Type::UDP>
+    class CROSSSOCK_DLL UDPSocket : public Socket<Type::UDP>
     {
     public:
         typedef typename Socket<Type::TCP>::SocketHandle SocketHandle;
 
-        UDPSocket(const UDPSocket &) = delete;            
+        UDPSocket(const UDPSocket &) = delete;
         UDPSocket &operator=(const UDPSocket &) = delete;
 
         UDPSocket();
         explicit UDPSocket(SocketHandle handle);
 
+        bool connect(const IPAddress &ip, uint16_t port);
         void set_addr(const IPAddress &address, uint16_t port);
-        size_t send(const char *data, size_t size);
-        size_t recv(char *data, size_t size);
+
+        int send(const char *data, int size);
+        int recv(char *data, int size);
         bool bind(const IPAddress &address, uint16_t port);
 
         bool set_broadcast(bool state = true);
+        inline bool is_connected() { return connected; };
+
+        sockaddr_in saddr{};
 
     private:
-        sockaddr_in addr{};
-        const int sizeofaddr = sizeof(addr);
+        void on_close() override;
+
+        int sizeofaddr = sizeof(saddr);
+        bool connected = false;
         bool broadcast = false;
     };
 

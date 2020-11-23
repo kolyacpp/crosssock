@@ -3,7 +3,7 @@
 #include <socklib/Config.hpp>
 namespace sl
 {
-    enum SOCKLIB_DLL Status
+    enum CROSSSOCK_DLL Status
     {
         Done,
         Error,
@@ -11,7 +11,7 @@ namespace sl
         WouldBlock,
     };
 
-    enum SOCKLIB_DLL Type
+    enum CROSSSOCK_DLL Type
     {
         TCP,
         UDP,

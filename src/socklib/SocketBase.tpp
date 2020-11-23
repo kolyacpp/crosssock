@@ -42,6 +42,8 @@ namespace sl
             OS::close(s);
             s = invalid_socket;
         }
+
+        on_close();
     }
 
     template <typename _SocketHandle, _SocketHandle _invalid_socket, Type _type>
@@ -55,7 +57,7 @@ namespace sl
         tv.tv_sec = timeout / 1000;
         tv.tv_usec = (timeout % 1000) * 1000;
 
-        if (::select(s + 1, &set, NULL, NULL, &tv) > 0)
+        if (::select(static_cast<int>(s + 1), &set, NULL, NULL, &tv) > 0)
             return true;
         else
             return false;

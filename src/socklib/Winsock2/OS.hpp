@@ -10,7 +10,7 @@
 namespace sl
 {
 
-    class SOCKLIB_DLL OS
+    class CROSSSOCK_DLL OS
     {
     public:
         static sockaddr_in create_sockaddr(const in_addr &addr, uint16_t port);

@@ -6,13 +6,13 @@
 #endif
 
 #ifdef MSVC
-#ifdef SOCKLIB_EXPORT
-#define SOCKLIB_DLL __declspec(dllexport)
+#ifdef CROSSSOCK_EXPORT
+#define CROSSSOCK_DLL __declspec(dllexport)
 #else
-#define SOCKLIB_DLL __declspec(dllimport)
+#define CROSSSOCK_DLL __declspec(dllimport)
 #endif
 #else
-#define SOCKLIB_DLL
+#define CROSSSOCK_DLL
 #endif
 
 

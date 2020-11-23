@@ -35,4 +35,4 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${INCLUDE}/.. ${SRC}/..)
 
-target_compile_definitions(${PROJECT_NAME} PRIVATE SOCKLIB_EXPORT NOMINMAX)
+target_compile_definitions(${PROJECT_NAME} PRIVATE CROSSSOCK_EXPORT NOMINMAX)

@@ -15,7 +15,7 @@ namespace sl
 {
 
     template <Type _type>
-    class SOCKLIB_DLL Socket : public SocketBase<SOCKET, INVALID_SOCKET, _type>
+    class CROSSSOCK_DLL Socket : public SocketBase<SOCKET, INVALID_SOCKET, _type>
     {
     public:
         typedef typename SocketBase<SOCKET, INVALID_SOCKET, _type>::SocketHandle SocketHandle;
