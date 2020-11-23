@@ -5,7 +5,7 @@
 
 #include <ws2tcpip.h>
 
-#include <socklib/Config.hpp>
+#include <crosssock/Config.hpp>
 
 namespace sl
 {

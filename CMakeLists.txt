@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(socklib)
+project(crosssock)
 
 set(SOCKLIB_BUILD_TEST
     TRUE

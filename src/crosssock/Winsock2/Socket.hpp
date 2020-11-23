@@ -6,10 +6,10 @@
 
 #include <ws2tcpip.h>
 
-#include <socklib/Config.hpp>
-#include <socklib/Enums.hpp>
-#include <socklib/SocketBase.hpp>
-#include <socklib/OS.hpp>
+#include <crosssock/Config.hpp>
+#include <crosssock/Enums.hpp>
+#include <crosssock/SocketBase.hpp>
+#include <crosssock/OS.hpp>
 
 namespace sl
 {
@@ -29,6 +29,6 @@ namespace sl
 
 } // namespace sl
 
-#include <socklib/Winsock2/Socket.tpp>
+#include <crosssock/Winsock2/Socket.tpp>
 
-#endif // __WINSOCK2__SOCKETBASE_H__
+#endif // __WINSOCK2__SOCKET_H__

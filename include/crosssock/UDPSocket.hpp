@@ -3,10 +3,10 @@
 
 #include <limits>
 
-#include <socklib/Config.hpp>
+#include <crosssock/Config.hpp>
 
-#include <socklib/Socket.hpp>
-#include <socklib/IPAddress.hpp>
+#include <crosssock/Socket.hpp>
+#include <crosssock/IPAddress.hpp>
 
 namespace sl
 {

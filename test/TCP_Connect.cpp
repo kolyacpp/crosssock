@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "TestConfig.h"
-#include <socklib/TCPSocket.hpp>
+#include <crosssock/TCPSocket.hpp>
 
 int main()
 {

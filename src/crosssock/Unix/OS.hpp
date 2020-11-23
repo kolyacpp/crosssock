@@ -14,7 +14,7 @@
 #include <errno.h>
 #include <cstring>
 
-#include <socklib/Config.hpp>
+#include <crosssock/Config.hpp>
 
 namespace sl
 {

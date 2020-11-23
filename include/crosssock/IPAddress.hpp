@@ -2,8 +2,8 @@
 #define __IPADDRES_H__
 
 #include <string>
-#include <socklib/OS.hpp>
-#include <socklib/Config.hpp>
+#include <crosssock/OS.hpp>
+#include <crosssock/Config.hpp>
 
 namespace sl
 {

@@ -3,7 +3,7 @@
 #include <chrono>
 
 #include "TestConfig.h"
-#include <socklib/UDPSocket.hpp>
+#include <crosssock/UDPSocket.hpp>
 
 int main()
 {

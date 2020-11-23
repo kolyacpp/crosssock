@@ -15,10 +15,10 @@
 #include <errno.h>
 #include <cstring>
 
-#include <socklib/Config.hpp>
-#include <socklib/Enums.hpp>
-#include <socklib/SocketBase.hpp>
-#include <socklib/OS.hpp>
+#include <crosssock/Config.hpp>
+#include <crosssock/Enums.hpp>
+#include <crosssock/SocketBase.hpp>
+#include <crosssock/OS.hpp>
 
 namespace sl
 {
@@ -38,6 +38,6 @@ namespace sl
 
 } // namespace sl
 
-#include <socklib/Unix/Socket.tpp>
+#include <crosssock/Unix/Socket.tpp>
 
 #endif // __UNIX__SOCKET_H__

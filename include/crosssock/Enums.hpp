@@ -1,6 +1,6 @@
 #ifndef __ENUMS_H__
 #define __ENUMS_H__
-#include <socklib/Config.hpp>
+#include <crosssock/Config.hpp>
 namespace sl
 {
     enum CROSSSOCK_DLL Status

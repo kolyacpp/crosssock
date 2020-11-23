@@ -4,10 +4,10 @@
 #include <stdexcept>
 #include <chrono>
 
-#include <socklib/Config.hpp>
-#include <socklib/Enums.hpp>
-#include <socklib/IPAddress.hpp>
-#include <socklib/OS.hpp>
+#include <crosssock/Config.hpp>
+#include <crosssock/Enums.hpp>
+#include <crosssock/IPAddress.hpp>
+#include <crosssock/OS.hpp>
 
 namespace sl
 {
@@ -48,6 +48,6 @@ namespace sl
 
 } // namespace sl
 
-#include <socklib/SocketBase.tpp>
+#include <crosssock/SocketBase.tpp>
 
-#endif // __SOCKET_H__
+#endif // __SOCKETBASE_H__
