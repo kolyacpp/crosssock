@@ -13,7 +13,11 @@ namespace sl
     void Socket<_type>::set_blocking(bool state)
     {
         u_long fionbio = !state;
-        ioctlsocket(this->s, FIONBIO, &fionbio);
+        if (ioctlsocket(this->s, FIONBIO, &fionbio) != 0)
+        {
+            this->close();
+            return;
+        }
 
         this->blocking = state;
     }

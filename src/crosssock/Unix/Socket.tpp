@@ -12,8 +12,20 @@ namespace sl
     template <Type _type>
     void Socket<_type>::set_blocking(bool state)
     {
-        u_long fionbio = !state;
-        //ioctlsocket(this->s, FIONBIO, &fionbio);
+        int flags = fcntl(this->s, F_GETFL, 0);
+        if (flags == -1)
+        {
+            this->close();
+            return;
+        }
+
+        flags = state ? (flags & ~O_NONBLOCK) : (flags | O_NONBLOCK);
+
+        if (fcntl(this->s, F_SETFL, flags) != 0)
+        {
+            this->close();
+            return;
+        }
 
         this->blocking = state;
     }
