@@ -17,9 +17,17 @@ namespace crs
         static void close(SOCKET s);
 
     private:
-        OS(){}
-    };
+        OS() {}
 
+        class _WinSockInitializer
+        {
+        public:
+            _WinSockInitializer();
+            ~_WinSockInitializer();
+        };
+
+        static _WinSockInitializer WinSockInitializer;
+    };
 } // namespace crs
 
 #endif // __WINSOCK2__OS_H__

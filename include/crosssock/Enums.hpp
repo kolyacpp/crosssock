@@ -10,12 +10,6 @@ namespace crs
         Disconnected,
         WouldBlock,
     };
-
-    enum CROSSSOCK_DLL Type
-    {
-        TCP,
-        UDP,
-    };
 } // namespace crs
 
 #endif // __ENUMS_H__

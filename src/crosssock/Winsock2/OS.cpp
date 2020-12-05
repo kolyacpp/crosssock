@@ -19,34 +19,22 @@ namespace crs
         closesocket(s);
     }
 
-    class __WinSockInitializer
+    OS::_WinSockInitializer OS::WinSockInitializer;
+
+    OS::_WinSockInitializer::_WinSockInitializer()
     {
-    public:
-        __WinSockInitializer()
-        {
-            if (started)
-                return;
-            started = true;
+        WSAData data;
 
-            WSAData data;
+        if (WSAStartup(MAKEWORD(2, 2), &data) != 0)
+            abort();
 
-            if (WSAStartup(MAKEWORD(2, 2), &data) != 0)
-                abort();
+        if (LOBYTE(data.wVersion) != 2 || HIBYTE(data.wVersion) != 2)
+            abort();
+    }
 
-            if (LOBYTE(data.wVersion) != 2 || HIBYTE(data.wVersion) != 2)
-                abort();
-        }
-        ~__WinSockInitializer()
-        {
-            if (!started)
-                return;
-
-            started = false;
-            WSACleanup();
-        }
-
-        static bool started;
-    } _WinSockInitializer;
-    bool __WinSockInitializer::started = false;
+    OS::_WinSockInitializer::~_WinSockInitializer()
+    {
+        WSACleanup();
+    }
 
 } // namespace crs

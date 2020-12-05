@@ -26,7 +26,7 @@ namespace crs
         static void close(int s);
 
     private:
-        OS(){}
+        OS() {}
     };
 
 } // namespace crs
