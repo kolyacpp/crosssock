@@ -5,7 +5,7 @@
 #include <crosssock/OS.hpp>
 #include <crosssock/Config.hpp>
 
-namespace sl
+namespace crs
 {
 
     class CROSSSOCK_DLL IPAddress
@@ -22,6 +22,6 @@ namespace sl
         in_addr addr;
     };
 
-} // namespace sl
+} // namespace crs
 
 #endif // __IPADDRES_H__

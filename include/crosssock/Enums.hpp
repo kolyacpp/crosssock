@@ -1,7 +1,7 @@
 #ifndef __ENUMS_H__
 #define __ENUMS_H__
 #include <crosssock/Config.hpp>
-namespace sl
+namespace crs
 {
     enum CROSSSOCK_DLL Status
     {
@@ -16,6 +16,6 @@ namespace sl
         TCP,
         UDP,
     };
-} // namespace sl
+} // namespace crs
 
 #endif // __ENUMS_H__

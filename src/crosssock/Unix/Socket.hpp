@@ -20,14 +20,13 @@
 #include <crosssock/SocketBase.hpp>
 #include <crosssock/OS.hpp>
 
-namespace sl
+namespace crs
 {
 
-    template <Type _type>
-    class CROSSSOCK_DLL Socket : public SocketBase<int, -1, _type>
+    class CROSSSOCK_DLL Socket : public SocketBase<int, -1>
     {
     public:
-        typedef typename SocketBase<int, -1, _type>::SocketHandle SocketHandle;
+        typedef typename SocketBase<int, -1>::SocketHandle SocketHandle;
         Socket();
         Socket(SocketHandle handle);
 
@@ -36,8 +35,6 @@ namespace sl
         Status get_status() const;
     };
 
-} // namespace sl
-
-#include <crosssock/Unix/Socket.tpp>
+} // namespace crs
 
 #endif // __UNIX__SOCKET_H__

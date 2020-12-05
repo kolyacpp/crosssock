@@ -1,6 +1,6 @@
 #include <crosssock/IPAddress.hpp>
 
-namespace sl
+namespace crs
 {
     const IPAddress IPAddress::broadcast = IPAddress((uint32_t)INADDR_BROADCAST);
     const IPAddress IPAddress::any = IPAddress((uint32_t)INADDR_ANY);
@@ -31,4 +31,4 @@ namespace sl
         addr.s_addr = htonl(address);
     }
 
-} // namespace sl
+} // namespace crs

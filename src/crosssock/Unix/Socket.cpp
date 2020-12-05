@@ -1,16 +1,12 @@
-#ifndef __UNIX__SOCKET_T__
-#define __UNIX__SOCKET_T__
+#include <crosssock/Unix/Socket.hpp>
 
-namespace sl
+namespace crs
 {
-    template <Type _type>
-    Socket<_type>::Socket() : SocketBase<int, -1, _type>() {}
+    Socket::Socket() : SocketBase<int, -1>() {}
 
-    template <Type _type>
-    Socket<_type>::Socket(SocketHandle handle) : SocketBase<int, -1, _type>(handle) {}
+    Socket::Socket(SocketHandle handle) : SocketBase<int, -1>(handle) {}
 
-    template <Type _type>
-    void Socket<_type>::set_blocking(bool state)
+    void Socket::set_blocking(bool state)
     {
         int flags = fcntl(this->s, F_GETFL, 0);
         if (flags == -1)
@@ -30,8 +26,7 @@ namespace sl
         this->blocking = state;
     }
 
-    template <Type _type>
-    Status Socket<_type>::get_status() const
+    Status Socket::get_status() const
     {
         switch (errno)
         {
@@ -59,6 +54,4 @@ namespace sl
             return Status::Error;
         }
     }
-} // namespace sl
-
-#endif
+} // namespace crs

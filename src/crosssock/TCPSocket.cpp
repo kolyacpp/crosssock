@@ -1,10 +1,10 @@
 #include <crosssock/TCPSocket.hpp>
 
-namespace sl
+namespace crs
 {
-    TCPSocket::TCPSocket() : Socket<Type::TCP>() {}
+    TCPSocket::TCPSocket() : Socket() {}
 
-    TCPSocket::TCPSocket(SocketHandle handle) : Socket<Type::TCP>(handle) {}
+    TCPSocket::TCPSocket(SocketHandle handle) : Socket(handle) {}
 
     bool TCPSocket::connect(const IPAddress &ip, uint16_t port)
     {
@@ -149,4 +149,16 @@ namespace sl
         return invalid_socket;
     }
 
-} // namespace sl
+    void TCPSocket::on_create()
+    {
+        s = socket(AF_INET, SOCK_STREAM, 0);
+
+        if (s == invalid_socket)
+            return;
+
+        int disable = 1;
+        if (setsockopt(s, IPPROTO_TCP, TCP_NODELAY, (char *)&disable, sizeof(disable)) == -1)
+            s = invalid_socket;
+    }
+
+} // namespace crs

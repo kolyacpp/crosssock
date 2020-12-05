@@ -1,53 +1,39 @@
 #ifndef __SOCKETBASE_T__
 #define __SOCKETBASE_T__
 
-namespace sl
+namespace crs
 {
 
-    template <typename _SocketHandle, _SocketHandle _invalid_socket, Type _type>
-    SocketBase<_SocketHandle, _invalid_socket, _type>::SocketBase()
+    template <typename _SocketHandle, _SocketHandle _invalid_socket>
+    SocketBase<_SocketHandle, _invalid_socket>::SocketBase()
     {
-        create();
     }
 
-    template <typename _SocketHandle, _SocketHandle _invalid_socket, Type _type>
-    SocketBase<_SocketHandle, _invalid_socket, _type>::SocketBase(SocketHandle handle)
+    template <typename _SocketHandle, _SocketHandle _invalid_socket>
+    SocketBase<_SocketHandle, _invalid_socket>::SocketBase(SocketHandle handle)
     {
         this->s = handle;
     }
 
-    template <typename _SocketHandle, _SocketHandle _invalid_socket, Type _type>
-    void SocketBase<_SocketHandle, _invalid_socket, _type>::create()
+    template <typename _SocketHandle, _SocketHandle _invalid_socket>
+    void SocketBase<_SocketHandle, _invalid_socket>::create()
     {
         close();
-
-        s = socket(AF_INET, type == TCP ? SOCK_STREAM : SOCK_DGRAM, 0);
-
-        if (s == invalid_socket)
-            return;
-
-        if (type == TCP)
-        {
-            int disable = 1;
-            if (setsockopt(s, IPPROTO_TCP, TCP_NODELAY, (char *)&disable, sizeof(disable)) == -1)
-                s = invalid_socket;
-        }
+        on_create();
     }
 
-    template <typename _SocketHandle, _SocketHandle _invalid_socket, Type _type>
-    void SocketBase<_SocketHandle, _invalid_socket, _type>::close()
+    template <typename _SocketHandle, _SocketHandle _invalid_socket>
+    void SocketBase<_SocketHandle, _invalid_socket>::close()
     {
         if (s != invalid_socket)
         {
             OS::close(s);
             s = invalid_socket;
         }
-
-        on_close();
     }
 
-    template <typename _SocketHandle, _SocketHandle _invalid_socket, Type _type>
-    bool SocketBase<_SocketHandle, _invalid_socket, _type>::bind(const IPAddress &address, uint16_t port)
+    template <typename _SocketHandle, _SocketHandle _invalid_socket>
+    bool SocketBase<_SocketHandle, _invalid_socket>::bind(const IPAddress &address, uint16_t port)
     {
         create();
 
@@ -58,8 +44,8 @@ namespace sl
         return true;
     }
 
-    template <typename _SocketHandle, _SocketHandle _invalid_socket, Type _type>
-    bool SocketBase<_SocketHandle, _invalid_socket, _type>::wait(long timeout)
+    template <typename _SocketHandle, _SocketHandle _invalid_socket>
+    bool SocketBase<_SocketHandle, _invalid_socket>::wait(long timeout)
     {
         fd_set set;
         FD_ZERO(&set);
@@ -75,12 +61,12 @@ namespace sl
             return false;
     }
 
-    template <typename _SocketHandle, _SocketHandle _invalid_socket, Type _type>
-    SocketBase<_SocketHandle, _invalid_socket, _type>::~SocketBase()
+    template <typename _SocketHandle, _SocketHandle _invalid_socket>
+    SocketBase<_SocketHandle, _invalid_socket>::~SocketBase()
     {
         close();
     }
 
-} // namespace sl
+} // namespace crs
 
 #endif

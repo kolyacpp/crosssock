@@ -7,18 +7,20 @@ int main()
 {
     try
     {
-        sl::TCPSocket socket;
-        if (!socket.connect(sl::IPAddress("1.1.1.1"), 80, 1000))
+        crs::TCPSocket socket;
+        socket.create();
+        
+        if (!socket.connect(crs::IPAddress("1.1.1.1"), 80, 1000))
             FAIL;
         
         socket.create();
 
-        if (!socket.connect(sl::IPAddress("google.com"), 80, 1000))
+        if (!socket.connect(crs::IPAddress("google.com"), 80, 1000))
             FAIL;
 
         socket.create();
 
-        if (!socket.connect(sl::IPAddress("1.1.1.1"), 80))
+        if (!socket.connect(crs::IPAddress("1.1.1.1"), 80))
             FAIL;
     }
     catch (...)

@@ -1,12 +1,12 @@
 #include <crosssock/UDPSocket.hpp>
 
-namespace sl
+namespace crs
 {
     //int UDPSocket::sizeofaddr = sizeof(addr);
 
-    UDPSocket::UDPSocket() : Socket<Type::UDP>() {}
+    UDPSocket::UDPSocket() : Socket() {}
 
-    UDPSocket::UDPSocket(SocketHandle handle) : Socket<Type::UDP>(handle) {}
+    UDPSocket::UDPSocket(SocketHandle handle) : Socket(handle) {}
 
     bool UDPSocket::connect(const IPAddress &ip, uint16_t port)
     {
@@ -33,7 +33,7 @@ namespace sl
         for (int sent = 0; sent < size;)
         {
             int res;
-            if(connected)
+            if (connected)
                 res = ::send(s, data + sent, size - sent, 0);
             else
                 res = ::sendto(s, data + sent, size - sent, 0, (sockaddr *)&saddr, sizeofaddr);
@@ -59,10 +59,10 @@ namespace sl
             return error;
 
         int res;
-        if(connected)
-                res = ::recv(s, data, size, 0);
-            else
-                res = ::recvfrom(s, data, size, 0, (sockaddr *)&saddr, &sizeofaddr);
+        if (connected)
+            res = ::recv(s, data, size, 0);
+        else
+            res = ::recvfrom(s, data, size, 0, (sockaddr *)&saddr, &sizeofaddr);
 
         if (res <= 0)
         {
@@ -97,11 +97,11 @@ namespace sl
             set_broadcast(false);
     }
 
-    void UDPSocket::on_close() 
+    void UDPSocket::on_create()
     {
+        s = socket(AF_INET, SOCK_DGRAM, 0);
         broadcast = false;
         connected = false;
     }
 
-
-} // namespace sl
+} // namespace crs

@@ -8,13 +8,13 @@
 #include <crosssock/Socket.hpp>
 #include <crosssock/IPAddress.hpp>
 
-namespace sl
+namespace crs
 {
 
-    class CROSSSOCK_DLL UDPSocket : public Socket<Type::UDP>
+    class CROSSSOCK_DLL UDPSocket : public Socket
     {
     public:
-        typedef typename Socket<Type::TCP>::SocketHandle SocketHandle;
+        typedef typename Socket::SocketHandle SocketHandle;
 
         UDPSocket(const UDPSocket &) = delete;
         UDPSocket &operator=(const UDPSocket &) = delete;
@@ -27,15 +27,14 @@ namespace sl
 
         int send(const char *data, int size);
         int recv(char *data, int size);
-        
 
         bool set_broadcast(bool state = true);
         inline bool is_connected() { return connected; };
 
         sockaddr_in saddr{};
 
-    private:
-        void on_close() override;
+    protected:
+        virtual void on_create() override;
 
 #ifdef _WIN32
         int sizeofaddr
@@ -44,10 +43,10 @@ namespace sl
 #endif
             = sizeof(saddr);
 
-        bool connected = false;
-        bool broadcast = false;
+        bool connected;
+        bool broadcast;
     };
 
-} // namespace sl
+} // namespace crs
 
 #endif // __UDPSOCKET_H__

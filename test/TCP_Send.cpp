@@ -9,16 +9,16 @@ int main()
 {
     try
     {
-        sl::TCPSocket listener;
+        crs::TCPSocket listener;
         listener.listen(PORT);
 
         auto thread = std::async([]() {
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
-            sl::TCPSocket send_socket;
+            crs::TCPSocket send_socket;
             send_socket.create();
 
-            if (send_socket.connect(sl::IPAddress::loopback, PORT, 1000))
+            if (send_socket.connect(crs::IPAddress::loopback, PORT, 1000))
             {
                 if (send_socket.send("PASS", sizeof("PASS")) == -1)
                     FAIL;
@@ -27,7 +27,7 @@ int main()
                 FAIL;
         });
 
-        sl::TCPSocket s(listener.accept());
+        crs::TCPSocket s(listener.accept());
         
         if (s.is_invalid())
             FAIL;

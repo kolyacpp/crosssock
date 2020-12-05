@@ -1,6 +1,6 @@
 #include <crosssock/OS.hpp>
 
-namespace sl
+namespace crs
 {
 
     sockaddr_in OS::create_sockaddr(const in_addr &addres, u_short port)
@@ -19,4 +19,4 @@ namespace sl
         ::close(s);
     }
 
-} // namespace sl
+} // namespace crs

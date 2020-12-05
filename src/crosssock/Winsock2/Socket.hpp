@@ -11,14 +11,12 @@
 #include <crosssock/SocketBase.hpp>
 #include <crosssock/OS.hpp>
 
-namespace sl
+namespace crs
 {
-
-    template <Type _type>
-    class CROSSSOCK_DLL Socket : public SocketBase<SOCKET, INVALID_SOCKET, _type>
+    class CROSSSOCK_DLL Socket : public SocketBase<SOCKET, INVALID_SOCKET>
     {
     public:
-        typedef typename SocketBase<SOCKET, INVALID_SOCKET, _type>::SocketHandle SocketHandle;
+        typedef typename SocketBase<SOCKET, INVALID_SOCKET>::SocketHandle SocketHandle;
         Socket();
         Socket(SocketHandle handle);
 
@@ -27,8 +25,6 @@ namespace sl
         Status get_status() const;
     };
 
-} // namespace sl
-
-#include <crosssock/Winsock2/Socket.tpp>
+} // namespace crs
 
 #endif // __WINSOCK2__SOCKET_H__

@@ -1,6 +1,6 @@
 #include <crosssock/OS.hpp>
 
-namespace sl
+namespace crs
 {
 
     sockaddr_in OS::create_sockaddr(const in_addr &addres, u_short port)
@@ -49,4 +49,4 @@ namespace sl
     } _WinSockInitializer;
     bool __WinSockInitializer::started = false;
 
-} // namespace sl
+} // namespace crs

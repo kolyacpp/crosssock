@@ -7,7 +7,7 @@
 
 #include <crosssock/Config.hpp>
 
-namespace sl
+namespace crs
 {
 
     class CROSSSOCK_DLL OS
@@ -20,6 +20,6 @@ namespace sl
         OS(){}
     };
 
-} // namespace sl
+} // namespace crs
 
 #endif // __WINSOCK2__OS_H__

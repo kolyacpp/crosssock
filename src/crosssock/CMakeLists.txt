@@ -16,10 +16,10 @@ set(SOURCES
     ${SRC}/UDPSocket.cpp)
 
 if(WIN32)
-  set(SOURCES ${SOURCES} ${SRC}/Winsock2/Socket.hpp ${SRC}/Winsock2/Socket.tpp
+  set(SOURCES ${SOURCES} ${SRC}/Winsock2/Socket.hpp ${SRC}/Winsock2/Socket.cpp
               ${SRC}/Winsock2/OS.hpp ${SRC}/Winsock2/OS.cpp)
 else()
-  set(SOURCES ${SOURCES} ${SRC}/Unix/Socket.hpp ${SRC}/Unix/Socket.tpp
+  set(SOURCES ${SOURCES} ${SRC}/Unix/Socket.hpp ${SRC}/Unix/Socket.cpp
               ${SRC}/Unix/OS.hpp ${SRC}/Unix/OS.cpp)
 endif()
 

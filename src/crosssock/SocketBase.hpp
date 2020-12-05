@@ -9,15 +9,14 @@
 #include <crosssock/IPAddress.hpp>
 #include <crosssock/OS.hpp>
 
-namespace sl
+namespace crs
 {
-    template <typename _SocketHandle, _SocketHandle _invalid_socket, Type _type>
+    template <typename _SocketHandle, _SocketHandle _invalid_socket>
     class CROSSSOCK_DLL SocketBase
     {
     public:
         typedef _SocketHandle SocketHandle;
         static const SocketHandle invalid_socket = _invalid_socket;
-        static const Type type = _type;
 
         static const int error = -1;
 
@@ -40,13 +39,13 @@ namespace sl
         inline operator bool() { return !is_invalid(); }
 
     protected:
-        virtual void on_close(){};
+        virtual void on_create() = 0;
 
         bool blocking = true;
         SocketHandle s = invalid_socket;
     };
 
-} // namespace sl
+} // namespace crs
 
 #include <crosssock/SocketBase.tpp>
 

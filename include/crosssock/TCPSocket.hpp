@@ -7,13 +7,13 @@
 #include <crosssock/Socket.hpp>
 #include <crosssock/IPAddress.hpp>
 
-namespace sl
+namespace crs
 {
 
-    class CROSSSOCK_DLL TCPSocket : public Socket<Type::TCP>
+    class CROSSSOCK_DLL TCPSocket : public Socket
     {
     public:
-        typedef typename Socket<Type::TCP>::SocketHandle SocketHandle;
+        typedef typename Socket::SocketHandle SocketHandle;
 
         TCPSocket(const TCPSocket &) = delete;
         TCPSocket &operator=(const TCPSocket &) = delete;
@@ -31,8 +31,11 @@ namespace sl
         bool listen(uint16_t port);
         inline SocketHandle accept() { return ::accept(s, NULL, NULL); };
         SocketHandle accept(int timeout);
+
+    protected:
+        virtual void on_create() override;
     };
 
-} // namespace sl
+} // namespace crs
 
 #endif // __TCPSOCKET_H__

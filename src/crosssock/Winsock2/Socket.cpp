@@ -1,16 +1,12 @@
-#ifndef __WINSOCK2__SOCKET_T__
-#define __WINSOCK2__SOCKET_T__
+#include <crosssock/Winsock2/Socket.hpp>
 
-namespace sl
+namespace crs
 {
-    template <Type _type>
-    Socket<_type>::Socket() : SocketBase<SOCKET, INVALID_SOCKET, _type>() {}
+    Socket::Socket() : SocketBase<SOCKET, INVALID_SOCKET>() {}
 
-    template <Type _type>
-    Socket<_type>::Socket(SocketHandle handle) : SocketBase<SOCKET, INVALID_SOCKET, _type>(handle) {}
+    Socket::Socket(SocketHandle handle) : SocketBase<SOCKET, INVALID_SOCKET>(handle) {}
 
-    template <Type _type>
-    void Socket<_type>::set_blocking(bool state)
+    void Socket::set_blocking(bool state)
     {
         u_long fionbio = !state;
         if (ioctlsocket(this->s, FIONBIO, &fionbio) != 0)
@@ -22,8 +18,7 @@ namespace sl
         this->blocking = state;
     }
 
-    template <Type _type>
-    Status Socket<_type>::get_status() const
+    Status Socket::get_status() const
     {
         switch (WSAGetLastError())
         {
@@ -52,6 +47,4 @@ namespace sl
             return Status::Error;
         }
     }
-} // namespace sl
-
-#endif
+} // namespace crs
