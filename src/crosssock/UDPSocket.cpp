@@ -8,14 +8,16 @@ namespace crs
 
     UDPSocket::UDPSocket(SocketHandle handle) : Socket(handle) {}
 
-    bool UDPSocket::connect(const IPAddress &ip, uint16_t port)
+    bool UDPSocket::connect(const IPAddress &address, uint16_t port)
     {
-        if (ip.is_none())
+        if (address.is_none())
             return false;
 
-        saddr = OS::create_sockaddr(ip.addr, port);
+        saddr.reset(reinterpret_cast<sockaddr*>(new sockaddr_in));
+        *reinterpret_cast<sockaddr_in*>(saddr.get()) = OS::create_sockaddr(address.addr, port);
+        sizeofaddr = sizeof(sockaddr_in);
 
-        if (::connect(s, (sockaddr *)&saddr, sizeof(saddr)) == -1)
+        if (::connect(s, saddr.get(), sizeofaddr) == -1)
             return false;
 
         connected = true;
@@ -36,7 +38,7 @@ namespace crs
             if (connected)
                 res = ::send(s, data + sent, size - sent, 0);
             else
-                res = ::sendto(s, data + sent, size - sent, 0, (sockaddr *)&saddr, sizeofaddr);
+                res = ::sendto(s, data + sent, size - sent, 0, saddr.get(), sizeofaddr);
 
             if (res < 0)
             {
@@ -62,7 +64,7 @@ namespace crs
         if (connected)
             res = ::recv(s, data, size, 0);
         else
-            res = ::recvfrom(s, data, size, 0, (sockaddr *)&saddr, &sizeofaddr);
+            res = ::recvfrom(s, data, size, 0, saddr.get(), &sizeofaddr);
 
         if (res <= 0)
         {
@@ -86,9 +88,11 @@ namespace crs
 
     void UDPSocket::set_addr(const IPAddress &address, uint16_t port)
     {
-        saddr = OS::create_sockaddr(address.addr, port);
+        saddr.reset(reinterpret_cast<sockaddr*>(new sockaddr_in));
+        *reinterpret_cast<sockaddr_in*>(saddr.get()) = OS::create_sockaddr(address.addr, port);
+        sizeofaddr = sizeof(sockaddr_in);
 
-        if (saddr.sin_addr.s_addr == INADDR_BROADCAST)
+        if (reinterpret_cast<sockaddr_in*>(saddr.get())->sin_addr.s_addr == INADDR_BROADCAST)
         {
             if (!broadcast)
                 set_broadcast(true);

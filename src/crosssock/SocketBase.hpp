@@ -1,8 +1,7 @@
 #ifndef __SOCKETBASE_H__
 #define __SOCKETBASE_H__
 
-#include <stdexcept>
-#include <chrono>
+#include <algorithm>
 
 #include <crosssock/Config.hpp>
 #include <crosssock/Enums.hpp>
@@ -19,6 +18,27 @@ namespace crs
         static const SocketHandle invalid_socket = _invalid_socket;
 
         static const int error = -1;
+
+        SocketBase(const SocketBase &) = delete;
+        SocketBase &operator=(const SocketBase &) = delete;
+
+        SocketBase(SocketBase &&o)
+        {
+            std::swap(blocking, o.blocking);
+            std::swap(s, o.s);
+        };
+
+        SocketBase& operator=(SocketBase &&o)
+        {
+            if (this != &o)
+            {
+                close();
+                std::swap(blocking, o.blocking);
+                std::swap(s, o.s);
+            }
+
+            return *this;
+        };
 
         SocketBase();
         SocketBase(SocketHandle handle);

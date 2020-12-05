@@ -26,9 +26,13 @@ namespace crs
     class CROSSSOCK_DLL Socket : public SocketBase<int, -1>
     {
     public:
-        typedef typename SocketBase<int, -1>::SocketHandle SocketHandle;
+        typedef SocketBase<int, -1> Base;
+        typedef Base::SocketHandle SocketHandle;
         Socket();
         Socket(SocketHandle handle);
+
+        Socket(Socket &&o) : Base(std::move(o)) {}
+        Socket &operator=(Socket &&o) { return static_cast<Socket &>(Base::operator=(std::move(o))); }
 
         void set_blocking(bool state);
 

@@ -27,7 +27,7 @@ int main()
                 FAIL;
         });
 
-        crs::TCPSocket s(listener.accept());
+        crs::TCPSocket s = listener.accept();
         
         if (s.is_invalid())
             FAIL;

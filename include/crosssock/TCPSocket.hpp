@@ -15,11 +15,11 @@ namespace crs
     public:
         typedef typename Socket::SocketHandle SocketHandle;
 
-        TCPSocket(const TCPSocket &) = delete;
-        TCPSocket &operator=(const TCPSocket &) = delete;
-
         TCPSocket();
-        explicit TCPSocket(SocketHandle handle);
+        TCPSocket(SocketHandle handle);
+
+        TCPSocket(TCPSocket &&o) : Socket(std::move(o)) {}
+        TCPSocket &operator=(TCPSocket &&o) { return static_cast<TCPSocket &>(Socket::operator=(std::move(o))); }
 
         bool connect(const IPAddress &ip, uint16_t port);
         bool connect(const IPAddress &ip, uint16_t port,
@@ -29,7 +29,7 @@ namespace crs
         int recv(char *data, int size);
 
         bool listen(uint16_t port);
-        inline SocketHandle accept() { return ::accept(s, NULL, NULL); };
+        inline TCPSocket accept() { return ::accept(s, NULL, NULL); };
         SocketHandle accept(int timeout);
 
     protected:

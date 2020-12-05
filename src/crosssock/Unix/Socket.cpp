@@ -2,9 +2,9 @@
 
 namespace crs
 {
-    Socket::Socket() : SocketBase<int, -1>() {}
+    Socket::Socket() : Base() {}
 
-    Socket::Socket(SocketHandle handle) : SocketBase<int, -1>(handle) {}
+    Socket::Socket(SocketHandle handle) : Base(handle) {}
 
     void Socket::set_blocking(bool state)
     {
