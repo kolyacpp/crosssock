@@ -10,11 +10,13 @@ int main()
     try
     {
         crs::UDPSocket socket_recv;
+
         socket_recv.bind(crs::IPAddress::any, PORT);
 
-        crs::UDPSocket socket_send;
-        socket_send.create();
-        socket_send.set_addr(crs::IPAddress::loopback, PORT);
+        crs::UDPSocket socket_send, test;
+        test.create();
+        test.set_addr(crs::IPAddress::loopback, PORT);
+        socket_send = std::move(test);
 
         char buff[] = "test";
 

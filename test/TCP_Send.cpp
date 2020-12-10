@@ -1,6 +1,7 @@
 #include <iostream>
 #include <thread>
 #include <future>
+#include <chrono>
 
 #include "TestConfig.h"
 #include <crosssock/TCPSocket.hpp>

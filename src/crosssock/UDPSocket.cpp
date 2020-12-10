@@ -2,22 +2,37 @@
 
 namespace crs
 {
-    //int UDPSocket::sizeofaddr = sizeof(addr);
-
     UDPSocket::UDPSocket() : Socket() {}
 
     UDPSocket::UDPSocket(SocketHandle handle) : Socket(handle) {}
+
+    UDPSocket::UDPSocket(UDPSocket &&o) : Socket(std::move(o))
+    {
+        std::swap(connected, o.connected);
+        std::swap(broadcast, o.broadcast);
+        std::swap(sizeofaddr, o.sizeofaddr);
+        std::swap(saddr6, o.saddr6);
+    }
+
+    UDPSocket &UDPSocket::operator=(UDPSocket &&o)
+    {
+        std::swap(connected, o.connected);
+        std::swap(broadcast, o.broadcast);
+        std::swap(sizeofaddr, o.sizeofaddr);
+        std::swap(saddr6, o.saddr6);
+
+        return static_cast<UDPSocket &>(Socket::operator=(std::move(o)));
+    }
 
     bool UDPSocket::connect(const IPAddress &address, uint16_t port)
     {
         if (address.is_none())
             return false;
 
-        saddr.reset(reinterpret_cast<sockaddr*>(new sockaddr_in));
-        *reinterpret_cast<sockaddr_in*>(saddr.get()) = OS::create_sockaddr(address.addr, port);
+        saddr4 = OS::create_sockaddr(address.addr, port);
         sizeofaddr = sizeof(sockaddr_in);
 
-        if (::connect(s, saddr.get(), sizeofaddr) == -1)
+        if (::connect(s, &saddr, sizeofaddr) == -1)
             return false;
 
         connected = true;
@@ -38,7 +53,7 @@ namespace crs
             if (connected)
                 res = ::send(s, data + sent, size - sent, 0);
             else
-                res = ::sendto(s, data + sent, size - sent, 0, saddr.get(), sizeofaddr);
+                res = ::sendto(s, data + sent, size - sent, 0, &saddr, sizeofaddr);
 
             if (res < 0)
             {
@@ -64,7 +79,7 @@ namespace crs
         if (connected)
             res = ::recv(s, data, size, 0);
         else
-            res = ::recvfrom(s, data, size, 0, saddr.get(), &sizeofaddr);
+            res = ::recvfrom(s, data, size, 0, &saddr, &sizeofaddr);
 
         if (res <= 0)
         {
@@ -88,11 +103,10 @@ namespace crs
 
     void UDPSocket::set_addr(const IPAddress &address, uint16_t port)
     {
-        saddr.reset(reinterpret_cast<sockaddr*>(new sockaddr_in));
-        *reinterpret_cast<sockaddr_in*>(saddr.get()) = OS::create_sockaddr(address.addr, port);
+        saddr4 = OS::create_sockaddr(address.addr, port);
         sizeofaddr = sizeof(sockaddr_in);
 
-        if (reinterpret_cast<sockaddr_in*>(saddr.get())->sin_addr.s_addr == INADDR_BROADCAST)
+        if (saddr4.sin_addr.s_addr == INADDR_BROADCAST)
         {
             if (!broadcast)
                 set_broadcast(true);

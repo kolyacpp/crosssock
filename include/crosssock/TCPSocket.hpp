@@ -1,8 +1,6 @@
 #ifndef __TCPSOCKET_H__
 #define __TCPSOCKET_H__
 
-#include <chrono>
-
 #include <crosssock/Config.hpp>
 #include <crosssock/Socket.hpp>
 #include <crosssock/IPAddress.hpp>

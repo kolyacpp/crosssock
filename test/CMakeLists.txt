@@ -14,10 +14,10 @@ foreach(TEST IN LISTS TESTS)
 
   target_link_libraries(${TEST} PUBLIC ${PROJECT_NAME})
 
-if(NOT WIN32)
-  find_package(Threads)
-  target_link_libraries(${TEST} PUBLIC ${CMAKE_THREAD_LIBS_INIT})
-endif()
+  if(NOT WIN32)
+    find_package(Threads)
+    target_link_libraries(${TEST} PUBLIC ${CMAKE_THREAD_LIBS_INIT})
+  endif()
 
   add_test(${TEST} ${TEST})
 

@@ -1,7 +1,6 @@
 #ifndef __UDPSOCKET_H__
 #define __UDPSOCKET_H__
 
-#include <limits>
 #include <memory>
 
 #include <crosssock/Config.hpp>
@@ -20,21 +19,8 @@ namespace crs
         UDPSocket();
         UDPSocket(SocketHandle handle);
 
-        UDPSocket(UDPSocket &&o) : Socket(std::move(o))
-        {
-            std::swap(connected, o.connected);
-            std::swap(broadcast, o.broadcast);
-            std::swap(sizeofaddr, o.sizeofaddr);
-            std::swap(saddr, o.saddr);
-        }
-        UDPSocket &operator=(UDPSocket &&o)
-        {
-            std::swap(connected, o.connected);
-            std::swap(broadcast, o.broadcast);
-            std::swap(sizeofaddr, o.sizeofaddr);
-            std::swap(saddr, o.saddr);
-            return static_cast<UDPSocket &>(Socket::operator=(std::move(o)));
-        }
+        UDPSocket(UDPSocket &&o);
+        UDPSocket &operator=(UDPSocket &&o);
 
         bool connect(const IPAddress &ip, uint16_t port);
         void set_addr(const IPAddress &address, uint16_t port);
@@ -46,10 +32,14 @@ namespace crs
         inline bool is_connected() { return connected; };
 
     protected:
-        std::unique_ptr<sockaddr> saddr;
-        virtual void on_create() override;
-
+        union{
+            sockaddr saddr;
+            sockaddr_in saddr4;
+            sockaddr_in6 saddr6;
+        };
         socklen_t sizeofaddr = 0;
+
+        virtual void on_create() override;
 
         bool connected = false;
         bool broadcast = false;
