@@ -53,6 +53,9 @@ namespace crs
 
             if (select(static_cast<int>(s + 1), NULL, &setW, &setE, &tv) > 0)
             {
+                if (last_blocking)
+                    set_blocking(true);
+                    
                 if (FD_ISSET(s, &setE))
                 {
                     status = Error;
